@@ -65,7 +65,9 @@ body {
     z-index: 0;
 }
 
-#UI_container {
+
+@media screen and (min-width: 600px) {
+ #UI_container {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -74,9 +76,9 @@ body {
     z-index: 900;
     vertical-align: bottom;
     pointer-events: none;
-}
-
-.custom-select {
+    }   
+    
+    .custom-select {
     color: black;
     font-weight: bold;
     font-size: 1.1rem;
@@ -87,10 +89,107 @@ body {
     border-radius: 8px;
     border: 1px solid transparent;
     position: absolute;
-    bottom: 4rem;
     margin-left: 1rem;
     pointer-events: auto;
 }
+    
+    
+
+    
+    
+    
+    
+    
+    #legendcontainer {
+    display: inline-block;
+    width: 9.5em;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+    
+    .layer-select {
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    width: 14em;
+    display: inline-block;
+    background-color: rgba(56, 181, 173, 0.8);
+    border-radius: 8px;
+    border: 1px solid transparent;
+    position: absolute;
+    bottom: 0.5rem;
+    margin-left: 1rem;
+    pointer-events: auto;
+}
+    
+
+        
+    
+}
+
+
+@media screen and (max-width: 600px) {
+     #UI_container {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 8.5em;
+    height: 20%;
+    z-index: 900;
+    vertical-align: bottom;
+    pointer-events: none;
+    }  
+    
+    .custom-select {
+    color: black;
+    font-weight: bold;
+    font-size: 1.1rem;
+    width: 8em;
+    height: 2.2rem;
+    display: inline-block;
+    background-color: rgba(56, 181, 173, 0.8);
+    border-radius: 8px;
+    border: 1px solid transparent;
+    position: absolute;
+    margin-left: 1rem;
+    pointer-events: auto;
+}
+    
+        #legendcontainer {
+    display: inline-block;
+    width: 7.5em;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+    
+    .layer-select {
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    width: 8em;
+    display: inline-block;
+    background-color: rgba(56, 181, 173, 0.8);
+    border-radius: 8px;
+    border: 1px solid transparent;
+    position: absolute;
+    bottom: 0.5rem;
+    margin-left: 1rem;
+    pointer-events: auto;
+}
+   
+    
+    
+    
+}
+
+
+   #custom-select1  {
+        bottom: 8rem; 
+    }
+
+  #custom-select2  {
+        bottom: 5rem; 
+    }
 
 .custom-select:hover, .custom-select:focus {
     background-color: rgb(49, 135, 127);
@@ -146,21 +245,6 @@ body {
     background-color: rgb(49, 135, 127);
 }
 
-.layer-select {
-    color: white;
-    font-weight: bold;
-    font-size: 1.1rem;
-    width: 14em;
-    display: inline-block;
-    background-color: rgba(56, 181, 173, 0.8);
-    border-radius: 8px;
-    border: 1px solid transparent;
-    position: absolute;
-    bottom: 0.5rem;
-    margin-left: 1rem;
-    pointer-events: auto;
-}
-
 .layer-select:hover, .layer-select:focus {
     background-color: rgb(49, 135, 127);
 }
@@ -177,13 +261,6 @@ body {
     padding: 10px;
     font-family: arial, sans-serif;
     color: black;
-}
-
-#legendcontainer {
-    display: inline-block;
-    width: 9.5em;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .legend {
@@ -277,7 +354,6 @@ body {
     list-style-type: none;
 }
 
-
 li {
     display: list-item;
     text-align: -webkit-match-parent;
@@ -331,12 +407,10 @@ ul {
     pointer-events: all;
 }
 
-
 img.leaflet-tile {
     filter: grayscale(85%) saturate(150%) hue-rotate(60deg) contrast(90%) brightness(110%);
     -webkit-filter: grayscale(85%) saturate(150%) hue-rotate(60deg) contrast(90%) brightness(110%);
 }
-
 
 table {
     font-family: arial, sans-serif;
@@ -369,7 +443,6 @@ tr {
     font-weight: lighter;
     padding: 2px;
 }
-
 
 .idsens {
     cursor: pointer;
@@ -423,7 +496,6 @@ tr {
     overflow-y: auto;
 }
 
-
 .leaflet-control {
     margin-top: 110px !important;
 }
@@ -441,6 +513,7 @@ tr {
 	width: 15px;
 	vertical-align: middle;
 }
+
 .labs_twitter:before {
 	display: inline-block;
 	padding-right: 5px;
@@ -448,6 +521,7 @@ tr {
 	width: 15px;
 	vertical-align: middle;
 }
+
 .labs_github:before {
 	display: inline-block;
 	padding-right: 5px;
@@ -455,6 +529,7 @@ tr {
 	width: 15px;
 	vertical-align: middle;
 }
+
 .labs_gitlab:before {
 	display: inline-block;
 	padding-right: 5px;
@@ -462,6 +537,7 @@ tr {
 	width: 15px;
 	vertical-align: middle;
 }
+
 .labs_mastodon:before {
 	display: inline-block;
 	padding-right: 5px;
@@ -469,6 +545,7 @@ tr {
 	width: 15px;
 	vertical-align: middle;
 }
+
 .labs_meetup:before {
 	display: inline-block;
 	padding-right: 5px;
@@ -476,6 +553,7 @@ tr {
 	width: 15px;
 	vertical-align: middle;
 }
+
 .labs_telegram:before {
 	display: inline-block;
 	padding-right: 5px;
