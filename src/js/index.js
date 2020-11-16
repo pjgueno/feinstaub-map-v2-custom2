@@ -196,7 +196,7 @@ window.onload = function () {
 			onmouseover: undefined,
 			onmouseout: undefined,
 			
-			attribution: "<br/><span style='font-size:120%'>Measurements: <a href='https://sensor.community/' style='color: red'>Sensor.Community</a> contributors</span>",
+			attribution: "<br/><span id='contribute'>Measurements: <a href='https://sensor.community/' style='color: red'>Sensor.Community</a> contributors</span>",
 
 			click: function (d) {
 				setTimeout(function () {

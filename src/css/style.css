@@ -41,20 +41,7 @@ body {
     color: rgb(56, 181, 173);
 }
 
-#update {
-    color: white;
-    font-weight: bold;
-    font-size: 0.8em;
-    position: relative;
-    top: 10px;
-    left: 10px;
-    float: left;
-    padding: 5px 10px;
-    text-align: center;
-    height: auto;
-    z-index: 900;
-    background-color: rgba(56, 181, 173, 0.6);
-}
+
 
 #map {
     position: absolute;
@@ -95,7 +82,20 @@ body {
     
     
 
-    
+    #update {
+    color: white;
+    font-weight: bold;
+    font-size: 0.8em;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    float: left;
+    padding: 5px 10px;
+    text-align: center;
+    height: auto;
+    z-index: 900;
+    background-color: rgba(56, 181, 173, 0.6);
+}
     
     
     
@@ -122,8 +122,19 @@ body {
     pointer-events: auto;
 }
     
+    
+       #custom-select1  {
+        bottom: 8rem; 
+    }
 
-        
+  #custom-select2  {
+        bottom: 5rem; 
+    }
+
+    #contribute{
+        font-size:120%;
+    
+    }
     
 }
 
@@ -134,11 +145,31 @@ body {
     left: 0;
     bottom: 0;
     width: 8.5em;
-    height: 20%;
+         
+    height: 11rem;
+/*    height: 20%;*/
     z-index: 900;
     vertical-align: bottom;
     pointer-events: none;
     }  
+    
+    
+    
+    #update {
+    color: white;
+    font-weight: bold;
+    font-size: 0.6em;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    float: left;
+    padding: 5px 10px;
+    text-align: center;
+    height: auto;
+    z-index: 900;
+    background-color: rgba(56, 181, 173, 0.6);
+}
+    
     
     .custom-select {
     color: black;
@@ -172,24 +203,28 @@ body {
     border-radius: 8px;
     border: 1px solid transparent;
     position: absolute;
-    bottom: 0.5rem;
+    bottom: 2.5rem;
     margin-left: 1rem;
     pointer-events: auto;
 }
    
+       #custom-select1  {
+        bottom: 9rem; 
+    }
+
+  #custom-select2  {
+        bottom: 6rem; 
+    }
     
+     #contribute{
+        font-size:100%;
     
+    }
     
 }
 
 
-   #custom-select1  {
-        bottom: 8rem; 
-    }
 
-  #custom-select2  {
-        bottom: 5rem; 
-    }
 
 .custom-select:hover, .custom-select:focus {
     background-color: rgb(49, 135, 127);
