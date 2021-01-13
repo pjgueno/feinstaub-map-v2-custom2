@@ -150,15 +150,35 @@ d3.select("#loading").html(translate.tr(lang,d3.select("#loading").html()));
 config.selection1 = (query.sensor !== undefined) ? query.sensor : config.selection1;
 config.selection2 = (query.sensor !== undefined) ? query.sensor : config.selection2;
 
-//CONFIG1
 
-d3.select("#custom-select1").select("select").property("value", config.selection1);
+//DOUBLON
 
-//CONFIG2
+////CONFIG1
+//
+//custom_select1.select("select").property("value", config.selection1);
+//
+////CONFIG2
+//
+//custom_select2_type = custom_select2_builder(config.selection2);
+//
+//custom_select2_type.property("value", config.selection2);
 
-custom_select2_type = custom_select2_builder(config.selection2);
 
-custom_select2_type.property("value", config.selection2);
+
+
+
+
+
+
+
+const custom_select1 = d3.select("#custom-select1");
+const custom_select2 = d3.select("#custom-select2");
+
+
+
+
+
+
 
 
 
@@ -404,9 +424,7 @@ window.onload = function () {
 				.remove();
 		},
 		data(data) {
-            
-            console.log(data);
-            
+                        
 			this._data = (data != null) ? data : [];
 			this.draw();
 			return this;
@@ -441,18 +459,18 @@ The values are refreshed every 5 minutes in order to fit with the measurement fr
 	d3.select("#AQI_Hazardous").html(" " + translate.tr(lang, "Hazardous<div class='tooltip-div'>Health warnings of emergency conditions. The entire population is more likely to be affected.</div>"));
 
 //	Select 1
-	const custom_select1 = d3.select("#custom-select1");
+//	const custom_select1 = custom_select1;
 	custom_select1.select("select").property("value", config.selection1);
 	custom_select1.select("select").selectAll("option").each(function () {
 		d3.select(this).html(translate.tr(lang, d3.select(this).html()));
 	});
 	custom_select1.append("div").attr("class", "select-selected").html("<span>"+translate.tr(lang,
-		custom_select1.select("select").select("option:checked").html())+"</span>").on("click", showAllSelect);
+		custom_select1.select("select").select("option:checked").html())+"</span>").on("click", showAllSelect1);
 	custom_select1.style("display", "inline-block");
     
     
     //  Select 2
-    const custom_select2 = d3.select("#custom-select2");
+//    const custom_select2 = custom_select2;
 
     custom_select2_type = custom_select2_builder(config.selection2);
 
@@ -461,7 +479,7 @@ The values are refreshed every 5 minutes in order to fit with the measurement fr
 d3.select(this).html(translate.tr(lang, d3.select(this).html()));
 });
     
-    d3.select("#custom-select2").append("div").attr("class", "select-selected").html("<span>"+translate.tr(lang,
+    custom_select2.append("div").attr("class", "select-selected").html("<span>"+translate.tr(lang,
 		custom_select2_type.select("option:checked").html())+"</span>").on("click", showAllSelect2);
 	custom_select2.style("display", "inline-block");
     
@@ -510,9 +528,9 @@ d3.select(this).html(translate.tr(lang, d3.select(this).html()));
 
 	map.on('click', function (e) {
 		/* if the user clicks anywhere outside the opened select drop down, then close all select boxes */
-		if (! d3.select("#custom-select1").select(".select-items").empty()) {
-			d3.select("#custom-select1").select(".select-items").remove();
-			d3.select("#custom-select1").select(".select-selected").attr("class", "select-selected");
+		if (! custom_select1.select(".select-items").empty()) {
+			custom_select1.select(".select-items").remove();
+			custom_select1.select(".select-selected").attr("class", "select-selected");
 		} else {
 			setTimeout(function () {
 				map.setView([e.latlng.lat, e.latlng.lng], map.getZoom());
@@ -559,7 +577,7 @@ function setQueryString() {
 	if (! d3.select("#cb_wind").property("checked")) new_path += "nowind&";
 	if (! d3.select("#cb_labs").property("checked")) new_path += "nolabs&";
 	new_path = new_path.slice(0,-1) + location.hash;
-	console.log(new_path);
+//	console.log(new_path);
 	history.pushState(stateObj,document.title,new_path);
 }
 
@@ -664,9 +682,7 @@ function reloadMap(val) {
     	d3.selectAll('path.hexbin-hexagon').remove();
 
 	closeSidebar();
-    
-    console.log(val);
-    
+        
     if (val === "PM10" || val === "PM25" || val === "Official_AQI_US" || val === "Temperature" || val === "Humidity" || val === "Pressure" || val === "Noise" ){
         
     switchLegend(val);
@@ -682,13 +698,13 @@ function reloadMap(val) {
 	if (val === "PM10" || val === "PM25") {
 		hexagonheatmap.data(hmhexaPM_aktuell);
         user_selected_value2 = "allPM";
-        custom_select2_type = d3.select("#custom-select2").select("#selectPM");
+        custom_select2_type = custom_select2.select("#selectPM");
         reloadDropDown("#selectPM","allPM");
         
 	} else if (val === "Official_AQI_US") {
 		hexagonheatmap.data(hmhexaPM_AQI);
          user_selected_value2 = "allPM";
-                custom_select2_type = d3.select("#custom-select2").select("#selectPM");
+                custom_select2_type = custom_select2.select("#selectPM");
         reloadDropDown("#selectPM","allPM");  
         
 	} else if (val === "Temperature") {
@@ -697,7 +713,7 @@ function reloadMap(val) {
 		}));
         
       user_selected_value2 = "allT";
-        custom_select2_type = d3.select("#custom-select2").select("#selectT");  
+        custom_select2_type = custom_select2.select("#selectT");  
         reloadDropDown("#selectT","allT");
         
     } else if (val === "Humidity") {
@@ -706,7 +722,7 @@ function reloadMap(val) {
 		}));
         
       user_selected_value2 = "allRH";
-        custom_select2_type = d3.select("#custom-select2").select("#selectRH");  
+        custom_select2_type = custom_select2.select("#selectRH");  
         reloadDropDown("#selectRH","allRH");  
         
     } else if (val === "Pressure") {
@@ -715,14 +731,14 @@ function reloadMap(val) {
 		}));
         
       user_selected_value2 = "allP";
-        custom_select2_type = d3.select("#custom-select2").select("#selectP");  
+        custom_select2_type = custom_select2.select("#selectP");  
         reloadDropDown("#selectP","allP");
         
 	} else if (val === "Noise") {
 		hexagonheatmap.data(hmhexa_noise);
         
         user_selected_value2 = "allN";
-        custom_select2_type = d3.select("#custom-select2").select("#selectN");
+        custom_select2_type = custom_select2.select("#selectN");
         reloadDropDown("#selectN","allN");
         
         
@@ -738,13 +754,11 @@ function reloadMap(val) {
         
     } else if (val === "SDS011") {
         
-        console.log(user_selected_value1);
+//        console.log(user_selected_value1);
         
                 
         if (user_selected_value1 == "PM25" || user_selected_value1 == "PM10") {            
            
-                   console.log("ENTER");
-
             hexagonheatmap.data(hmhexaPM_aktuell.filter(function(i) {return i.type == "SDS011"}));
             
         } else if (user_selected_value1 == "Official_AQI_US"){            
@@ -996,28 +1010,24 @@ function removeInArray(array) {
 	return array;
 }
 
-function showAllSelect() {
-	const custom_select = d3.select("#custom-select1");
-	if (custom_select.select(".select-items").empty()) {
-		custom_select.append("div").attr("class", "select-items");
-		custom_select.select("select").selectAll("option").each(function (d) {
-			if (this.value !== user_selected_value1) custom_select.select(".select-items").append("div").html("<span>"+d3.select(this).html()+"</span>").attr("id", "select-item-" + this.value).on("click", function () {
+function showAllSelect1() {
+	if (custom_select1.select(".select-items").empty()) {
+		custom_select1.append("div").attr("class", "select-items");
+		custom_select1.select("select").selectAll("option").each(function (d) {
+			if (this.value !== user_selected_value1) custom_select1.select(".select-items").append("div").html("<span>"+d3.select(this).html()+"</span>").attr("id", "select-item-" + this.value).on("click", function () {
 				switchTo(this);
 			});
-			custom_select.select("#select-item-Noise").select("span").attr("id","noise_option");
+			custom_select1.select("#select-item-Noise").select("span").attr("id","noise_option");
 		});
-		custom_select.select(".select-selected").attr("class", "select-selected select-arrow-active");
+		custom_select1.select(".select-selected").attr("class", "select-selected select-arrow-active");
 	}
 }
 
 function showAllSelect2() {
-	const custom_select2 = d3.select("#custom-select2");
 	if (custom_select2.select(".select-items").empty()) {
 		custom_select2.append("div").attr("class", "select-items");
         
-        		custom_select2_type.selectAll("option").each(function (d) {
-
-			console.log(d3.select(this).html());
+    custom_select2_type.selectAll("option").each(function (d) {
 			if (this.value !== user_selected_value2) custom_select2.select(".select-items").append("div").html("<span>"+d3.select(this).html()+"</span>").attr("id", "select-item-" + this.value).on("click", function () {
 				switchTo2(this);
 			});
@@ -1030,7 +1040,10 @@ function showAllSelect2() {
 
 
 function switchTo(element) {
-	const custom_select1 = d3.select("#custom-select1");
+    
+    console.log('Switch 1 Called');
+    
+//	const custom_select1 = d3.select("#custom-select1");
 	custom_select1.select("select").property("value", element.id.substring(12));
 	custom_select1.select(".select-selected").html("<span>"+custom_select1.select("select").select("option:checked").html()+"</span>");
 	user_selected_value1 = element.id.substring(12);
@@ -1045,10 +1058,12 @@ function switchTo(element) {
 }
 
 function switchTo2(element) {
-	const custom_select2 = d3.select("#custom-select2");
     
-    console.log(custom_select2_type);
-    	custom_select2_type.property("value", element.id.substring(12));
+    console.log('Switch 2 Called');
+    
+//	const custom_select2 = d3.select("#custom-select2");
+    
+    custom_select2_type.property("value", element.id.substring(12));
     
 	custom_select2.select(".select-selected").html("<span>"+custom_select2_type.select("option:checked").html()+"</span>");
 	user_selected_value2 = element.id.substring(12);
@@ -1060,39 +1075,38 @@ custom_select2.select(".select-selected").select("span").attr("id",null);
 
 
 function custom_select2_builder(selector){
-if(selector=="allPM" || selector=="SDS011"|| selector=="SDS021"|| selector=="PMS1003"|| selector=="PMS3003"|| selector=="PMS5003"|| selector=="PMS6003"|| selector=="HPM"){return d3.select("#custom-select2").select("#selectPM")};
+if(selector=="allPM" || selector=="SDS011"|| selector=="SDS021"|| selector=="PMS1003"|| selector=="PMS3003"|| selector=="PMS5003"|| selector=="PMS6003"|| selector=="HPM"){return custom_select2.select("#selectPM")};
 
-if(selector=="allT" || selector=="DHT11"|| selector=="DHT22"|| selector=="BMP180"|| selector=="BMP280"|| selector=="BME280"|| selector=="HTU21D"|| selector=="DS18B20" || selector=="SHT11" || selector=="SHT12" || selector=="SHT15" || selector=="SHT30" || selector=="SHT31"|| selector=="SHT35"){return d3.select("#custom-select2").select("#selectT")};
+if(selector=="allT" || selector=="DHT11"|| selector=="DHT22"|| selector=="BMP180"|| selector=="BMP280"|| selector=="BME280"|| selector=="HTU21D"|| selector=="DS18B20" || selector=="SHT11" || selector=="SHT12" || selector=="SHT15" || selector=="SHT30" || selector=="SHT31"|| selector=="SHT35"){return custom_select2.select("#selectT")};
     
-if(selector=="allRH" || selector=="DHT11"|| selector=="DHT22"||  selector=="BME280"|| selector=="HTU21D"|| selector=="SHT11" || selector=="SHT12" || selector=="SHT15" || selector=="SHT30" || selector=="SHT31"|| selector=="SHT35"){return d3.select("#custom-select2").select("#selectRH")};
+if(selector=="allRH" || selector=="DHT11"|| selector=="DHT22"||  selector=="BME280"|| selector=="HTU21D"|| selector=="SHT11" || selector=="SHT12" || selector=="SHT15" || selector=="SHT30" || selector=="SHT31"|| selector=="SHT35"){return custom_select2.select("#selectRH")};
     
-if(selector=="allP" || selector=="BMP180"|| selector=="BMP280"|| selector=="BME280"){return d3.select("#custom-select2").select("#selectP")};
+if(selector=="allP" || selector=="BMP180"|| selector=="BMP280"|| selector=="BME280"){return custom_select2.select("#selectP")};
 
-if(selector=="allN" || selector=="DNMS"){return d3.select("#custom-select2").select("#selectN")};
+if(selector=="allN" || selector=="DNMS"){return custom_select2.select("#selectN")};
 };
 
 function reloadDropDown(selector1,selector2){
     
-     d3.select("#custom-select2").selectAll("div").remove();
-        d3.select("#custom-select2").select(selector1).property("value", selector2);
-        d3.select("#custom-select2").select(selector1).selectAll("option").each(function () {
+     custom_select2.selectAll("div").remove();
+        custom_select2.select(selector1).property("value", selector2);
+        custom_select2.select(selector1).selectAll("option").each(function () {
         d3.select(this).html(translate.tr(lang, d3.select(this).html()));
         });
-        d3.select("#custom-select2").append("div").attr("class", "select-selected").html("<span>"+translate.tr(lang,
-        d3.select("#custom-select2").select(selector1).select("option:checked").html())+"</span>").on("click", function(){
-            	if (d3.select("#custom-select2").select(".select-items").empty()) {
-		d3.select("#custom-select2").append("div").attr("class", "select-items");
+        custom_select2.append("div").attr("class", "select-selected").html("<span>"+translate.tr(lang,custom_select2.select(selector1).select("option:checked").html())+"</span>").on("click", function(){
+            	if (custom_select2.select(".select-items").empty()) {
+		custom_select2.append("div").attr("class", "select-items");
         
-        		d3.select("#custom-select2").select(selector1).selectAll("option").each(function (d) {
+        		custom_select2.select(selector1).selectAll("option").each(function (d) {
 
-        			console.log(d3.select(this).html());
-			if (this.value !== user_selected_value2) d3.select("#custom-select2").select(".select-items").append("div").html("<span>"+d3.select(this).html()+"</span>").attr("id", "select-item-" + this.value).on("click", function () {
+//        console.log(d3.select(this).html());
+			if (this.value !== user_selected_value2) custom_select2.select(".select-items").append("div").html("<span>"+d3.select(this).html()+"</span>").attr("id", "select-item-" + this.value).on("click", function () {
 				switchTo2(this);
 			});
 		});
         
-		d3.select("#custom-select2").select(".select-selected").attr("class", "select-selected select-arrow-active");
+		custom_select2.select(".select-selected").attr("class", "select-selected select-arrow-active");
 	}}
     );
-        d3.select("#custom-select2").style("display", "inline-block");
+        custom_select2.style("display", "inline-block");
 };
