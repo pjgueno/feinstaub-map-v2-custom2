@@ -33,8 +33,6 @@ import './static-files'
 // declare variables
 let hexagonheatmap, hmhexaPM_aktuell, hmhexaPM_AQI, hmhexa_t_h_p, hmhexa_noise;
 
-let custom_select2_type;
-
 // save browser lanuage for translation
 const lang = translate.getFirstBrowserLanguage().substring(0, 2);
 
@@ -150,38 +148,14 @@ d3.select("#loading").html(translate.tr(lang,d3.select("#loading").html()));
 config.selection1 = (query.sensor !== undefined) ? query.sensor : config.selection1;
 config.selection2 = (query.sensor !== undefined) ? query.sensor : config.selection2;
 
-
-//DOUBLON
-
-////CONFIG1
-//
-//custom_select1.select("select").property("value", config.selection1);
-//
-////CONFIG2
-//
-//custom_select2_type = custom_select2_builder(config.selection2);
-//
-//custom_select2_type.property("value", config.selection2);
-
-
-
-
-
-
-
-
+//d3 element selector
 
 const custom_select1 = d3.select("#custom-select1");
 const custom_select2 = d3.select("#custom-select2");
 
+// special selector for dropdown 2
 
-
-
-
-
-
-
-
+let custom_select2_type;
 
 let user_selected_value1 = config.selection1;
 let user_selected_value2 = config.selection2;
@@ -459,7 +433,6 @@ The values are refreshed every 5 minutes in order to fit with the measurement fr
 	d3.select("#AQI_Hazardous").html(" " + translate.tr(lang, "Hazardous<div class='tooltip-div'>Health warnings of emergency conditions. The entire population is more likely to be affected.</div>"));
 
 //	Select 1
-//	const custom_select1 = custom_select1;
 	custom_select1.select("select").property("value", config.selection1);
 	custom_select1.select("select").selectAll("option").each(function () {
 		d3.select(this).html(translate.tr(lang, d3.select(this).html()));
@@ -470,18 +443,18 @@ The values are refreshed every 5 minutes in order to fit with the measurement fr
     
     
     //  Select 2
-//    const custom_select2 = custom_select2;
-
     custom_select2_type = custom_select2_builder(config.selection2);
 
     custom_select2_type.property("value", config.selection2);  
     custom_select2_type.selectAll("option").each(function () {
-d3.select(this).html(translate.tr(lang, d3.select(this).html()));
-});
+    d3.select(this).html(translate.tr(lang, d3.select(this).html()));
+    });
     
     custom_select2.append("div").attr("class", "select-selected").html("<span>"+translate.tr(lang,
-		custom_select2_type.select("option:checked").html())+"</span>").on("click", showAllSelect2);
-	custom_select2.style("display", "inline-block");
+    custom_select2_type.select("option:checked").html())+"</span>").on("click", showAllSelect2);
+	
+    
+    custom_select2.style("display", "inline-block");
     
 	switchLegend(user_selected_value1);
 
@@ -489,7 +462,6 @@ d3.select(this).html(translate.tr(lang, d3.select(this).html()));
 	map.clicked = 0;
 	hexagonheatmap = L.hexbinLayer(scale_options[user_selected_value1]).addTo(map);
 
-//	REVOIR ORDRE DANS FONCTION READY
 	function retrieveData() {
 		api.getData(data_host + "/data/v2/data.dust.min.json", 1).then(function (result) {
 			hmhexaPM_aktuell = result.cells;
@@ -528,9 +500,11 @@ d3.select(this).html(translate.tr(lang, d3.select(this).html()));
 
 	map.on('click', function (e) {
 		/* if the user clicks anywhere outside the opened select drop down, then close all select boxes */
-		if (! custom_select1.select(".select-items").empty()) {
+		if (!custom_select1.select(".select-items").empty() || !custom_select2.select(".select-items").empty()) {
 			custom_select1.select(".select-items").remove();
 			custom_select1.select(".select-selected").attr("class", "select-selected");
+            custom_select2.select(".select-items").remove();
+			custom_select2.select(".select-selected").attr("class", "select-selected");
 		} else {
 			setTimeout(function () {
 				map.setView([e.latlng.lat, e.latlng.lng], map.getZoom());
@@ -577,7 +551,6 @@ function setQueryString() {
 	if (! d3.select("#cb_wind").property("checked")) new_path += "nowind&";
 	if (! d3.select("#cb_labs").property("checked")) new_path += "nolabs&";
 	new_path = new_path.slice(0,-1) + location.hash;
-//	console.log(new_path);
 	history.pushState(stateObj,document.title,new_path);
 }
 
@@ -679,7 +652,7 @@ function ready(num) {
 
 function reloadMap(val) {
 
-    	d3.selectAll('path.hexbin-hexagon').remove();
+    d3.selectAll('path.hexbin-hexagon').remove();
 
 	closeSidebar();
         
@@ -694,18 +667,19 @@ function reloadMap(val) {
 	hexagonheatmap.initialize(scale_options[user_selected_value1]);    
     };
     
+    //After reloading the map, the custom dropdown selector have to be updated
 
 	if (val === "PM10" || val === "PM25") {
 		hexagonheatmap.data(hmhexaPM_aktuell);
         user_selected_value2 = "allPM";
         custom_select2_type = custom_select2.select("#selectPM");
-        reloadDropDown("#selectPM","allPM");
+        reloadDropDown("allPM");
         
 	} else if (val === "Official_AQI_US") {
 		hexagonheatmap.data(hmhexaPM_AQI);
          user_selected_value2 = "allPM";
-                custom_select2_type = custom_select2.select("#selectPM");
-        reloadDropDown("#selectPM","allPM");  
+        custom_select2_type = custom_select2.select("#selectPM");
+        reloadDropDown("allPM");  
         
 	} else if (val === "Temperature") {
 		hexagonheatmap.data(hmhexa_t_h_p.filter(function (value) {
@@ -714,7 +688,7 @@ function reloadMap(val) {
         
       user_selected_value2 = "allT";
         custom_select2_type = custom_select2.select("#selectT");  
-        reloadDropDown("#selectT","allT");
+        reloadDropDown("allT");
         
     } else if (val === "Humidity") {
 		hexagonheatmap.data(hmhexa_t_h_p.filter(function (value) {
@@ -723,7 +697,7 @@ function reloadMap(val) {
         
       user_selected_value2 = "allRH";
         custom_select2_type = custom_select2.select("#selectRH");  
-        reloadDropDown("#selectRH","allRH");  
+        reloadDropDown("allRH");  
         
     } else if (val === "Pressure") {
 		hexagonheatmap.data(hmhexa_t_h_p.filter(function (value) {
@@ -732,14 +706,14 @@ function reloadMap(val) {
         
       user_selected_value2 = "allP";
         custom_select2_type = custom_select2.select("#selectP");  
-        reloadDropDown("#selectP","allP");
+        reloadDropDown("allP");
         
 	} else if (val === "Noise") {
 		hexagonheatmap.data(hmhexa_noise);
         
         user_selected_value2 = "allN";
         custom_select2_type = custom_select2.select("#selectN");
-        reloadDropDown("#selectN","allN");
+        reloadDropDown("allN");
         
         
 	} else if (val === "allPM") {
@@ -752,10 +726,7 @@ function reloadMap(val) {
             
         };
         
-    } else if (val === "SDS011") {
-        
-//        console.log(user_selected_value1);
-        
+    } else if (val === "SDS011") {        
                 
         if (user_selected_value1 == "PM25" || user_selected_value1 == "PM10") {            
            
@@ -915,9 +886,7 @@ function reloadMap(val) {
         if (user_selected_value1 == "Noise") {            
             hexagonheatmap.data(hmhexa_noise.filter(function(i) {return i.type == "Laerm"}));
         }   
-    }
-   
-    
+    }  
 }
 
 function sensorNr(data) {
@@ -1011,7 +980,13 @@ function removeInArray(array) {
 }
 
 function showAllSelect1() {
+    
+    console.log(custom_select1.select(".select-items"));
+    
 	if (custom_select1.select(".select-items").empty()) {
+        
+        console.log('EMPTY');
+        
 		custom_select1.append("div").attr("class", "select-items");
 		custom_select1.select("select").selectAll("option").each(function (d) {
 			if (this.value !== user_selected_value1) custom_select1.select(".select-items").append("div").html("<span>"+d3.select(this).html()+"</span>").attr("id", "select-item-" + this.value).on("click", function () {
@@ -1020,33 +995,49 @@ function showAllSelect1() {
 			custom_select1.select("#select-item-Noise").select("span").attr("id","noise_option");
 		});
 		custom_select1.select(".select-selected").attr("class", "select-selected select-arrow-active");
-	}
+	}else{
+        console.log('NOT EMPTY');
+        custom_select1.select(".select-items").remove();
+        custom_select1.select(".select-selected").attr("class", "select-selected select-arrow-inactive"); 
+    }
 }
 
 function showAllSelect2() {
+    
+    console.log(custom_select2.select(".select-items"));
+    
 	if (custom_select2.select(".select-items").empty()) {
+        
+        console.log('EMPTY');
+        
 		custom_select2.append("div").attr("class", "select-items");
         
     custom_select2_type.selectAll("option").each(function (d) {
+        
 			if (this.value !== user_selected_value2) custom_select2.select(".select-items").append("div").html("<span>"+d3.select(this).html()+"</span>").attr("id", "select-item-" + this.value).on("click", function () {
 				switchTo2(this);
 			});
 		});
         
 		custom_select2.select(".select-selected").attr("class", "select-selected select-arrow-active");
-	}
+    
+	}else{
+        console.log('NOT EMPTY');
+        custom_select2.select(".select-items").remove();
+        custom_select2.select(".select-selected").attr("class", "select-selected select-arrow-inactive"); 
+    }
 }
-
 
 
 function switchTo(element) {
     
     console.log('Switch 1 Called');
-    
-//	const custom_select1 = d3.select("#custom-select1");
 	custom_select1.select("select").property("value", element.id.substring(12));
 	custom_select1.select(".select-selected").html("<span>"+custom_select1.select("select").select("option:checked").html()+"</span>");
+    
+    
 	user_selected_value1 = element.id.substring(12);
+    
 	if (user_selected_value1 === "Noise") {
 		custom_select1.select(".select-selected").select("span").attr("id","noise_option");
 	} else {
@@ -1060,14 +1051,15 @@ function switchTo(element) {
 function switchTo2(element) {
     
     console.log('Switch 2 Called');
-    
-//	const custom_select2 = d3.select("#custom-select2");
-    
     custom_select2_type.property("value", element.id.substring(12));
+    console.log(element.id.substring(12));
     
-	custom_select2.select(".select-selected").html("<span>"+custom_select2_type.select("option:checked").html()+"</span>");
+    
+	custom_select2.select(".select-selected").html("<span>"+custom_select2_type.select("option:checked").html()+"</span>");          
+    
 	user_selected_value2 = element.id.substring(12);
-custom_select2.select(".select-selected").select("span").attr("id",null);
+    
+    custom_select2.select(".select-selected").select("span").attr("id",null);
 	custom_select2.select(".select-selected").attr("class", "select-selected");
 	reloadMap(user_selected_value2);
 	custom_select2.select(".select-items").remove();
@@ -1086,27 +1078,19 @@ if(selector=="allP" || selector=="BMP180"|| selector=="BMP280"|| selector=="BME2
 if(selector=="allN" || selector=="DNMS"){return custom_select2.select("#selectN")};
 };
 
-function reloadDropDown(selector1,selector2){
+
+function reloadDropDown(selector){
     
      custom_select2.selectAll("div").remove();
-        custom_select2.select(selector1).property("value", selector2);
-        custom_select2.select(selector1).selectAll("option").each(function () {
+        
+    custom_select2_type.property("value", selector);
+    console.log(selector);
+    
+    custom_select2_type.selectAll("option").each(function () {
         d3.select(this).html(translate.tr(lang, d3.select(this).html()));
         });
-        custom_select2.append("div").attr("class", "select-selected").html("<span>"+translate.tr(lang,custom_select2.select(selector1).select("option:checked").html())+"</span>").on("click", function(){
-            	if (custom_select2.select(".select-items").empty()) {
-		custom_select2.append("div").attr("class", "select-items");
-        
-        		custom_select2.select(selector1).selectAll("option").each(function (d) {
-
-//        console.log(d3.select(this).html());
-			if (this.value !== user_selected_value2) custom_select2.select(".select-items").append("div").html("<span>"+d3.select(this).html()+"</span>").attr("id", "select-item-" + this.value).on("click", function () {
-				switchTo2(this);
-			});
-		});
-        
-		custom_select2.select(".select-selected").attr("class", "select-selected select-arrow-active");
-	}}
-    );
+    
+        custom_select2.append("div").attr("class", "select-selected").html("<span>"+translate.tr(lang,custom_select2_type.select("option:checked").html())+"</span>").on("click", showAllSelect2);
+   
         custom_select2.style("display", "inline-block");
 };
