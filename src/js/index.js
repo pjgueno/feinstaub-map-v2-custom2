@@ -776,6 +776,14 @@ function reloadMap(val) {
         } else if (user_selected_value1 == "Official_AQI_US"){            
             hexagonheatmap.data(hmhexaPM_AQI.filter(function(i) {return i.type == "PMS6003"}));   
         };   
+    } else if (val === "PMS7003") {
+        
+        if (user_selected_value1 == "PM25" || user_selected_value1 == "PM10") {            
+            hexagonheatmap.data(hmhexaPM_aktuell.filter(function(i) {return i.type == "PMS7003"}));
+            
+        } else if (user_selected_value1 == "Official_AQI_US"){            
+            hexagonheatmap.data(hmhexaPM_AQI.filter(function(i) {return i.type == "PMS7003"}));   
+        };  
     }else if (val === "HPM") {
         
         if (user_selected_value1 == "PM25" || user_selected_value1 == "PM10") {            
@@ -1067,7 +1075,7 @@ function switchTo2(element) {
 
 
 function custom_select2_builder(selector){
-if(selector=="allPM" || selector=="SDS011"|| selector=="SDS021"|| selector=="PMS1003"|| selector=="PMS3003"|| selector=="PMS5003"|| selector=="PMS6003"|| selector=="HPM"){return custom_select2.select("#selectPM")};
+if(selector=="allPM" || selector=="SDS011"|| selector=="SDS021"|| selector=="PMS1003"|| selector=="PMS3003"|| selector=="PMS5003"|| selector=="PMS6003"|| selector=="PMS7003"|| selector=="HPM"){return custom_select2.select("#selectPM")};
 
 if(selector=="allT" || selector=="DHT11"|| selector=="DHT22"|| selector=="BMP180"|| selector=="BMP280"|| selector=="BME280"|| selector=="HTU21D"|| selector=="DS18B20" || selector=="SHT11" || selector=="SHT12" || selector=="SHT15" || selector=="SHT30" || selector=="SHT31"|| selector=="SHT35"){return custom_select2.select("#selectT")};
     
